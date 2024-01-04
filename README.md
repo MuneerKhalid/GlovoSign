@@ -1,9 +1,9 @@
-# Free Tailwind landing page template
+# GLovoSign ~ Connecting people
 
 ![Simple TailwindCSS template preview](https://user-images.githubusercontent.com/2683512/231426766-72ae7bcd-618b-4a3e-87cd-b46a464bde61.png)
 
-**Simple Light** is a free landing page template built on top of **TailwindCSS** and fully coded in **React** / **Next.js**. Simple light is designed to provide all the basic components a developer need to create a landing page for SaaS products, online services, and more. 
-Use it for whatever you want, and be sure to reach us out on Twitter if you build anything cool/useful with it.
+Welcome to our innovative platform designed to bridge communication gaps and empower individuals with hearing and speech impairments. Our project, "GlovoSign Connect," revolves around a groundbreaking sign language recognition system using advanced gesture gloves and cutting-edge technology.
+Our project integrates state-of-the-art gesture gloves equipped with flex, gyroscope, and accelerometer sensors, enabling users to express themselves through sign language gestures. Backed by intelligent machine learning algorithms, our system provides real-time and precise translations of these gestures, creating a seamless and inclusive communication experience. The integration of a sophisticated Text-to-Speech (TTS) conversion system ensures that recognized sign language is not only transcribed but also spoken aloud, enriching the communicative interaction. GlovoSign Connect also offers virtual communication rooms where users can engage in real-time conversations, facilitated by continuous speech-to-text conversion for deaf and dumb individuals. With an intuitive and user-friendly interface, our platform strives to break down communication barriers, empowering individuals and fostering understanding in a more inclusive world. Join us in redefining communication possibilities at GlovoSign Connect!
 Created and maintained with ❤️ by [Cruip.com](https://cruip.com/).
 
 *Version 1.3.3 built with Tailwind CSS and React + Vite is available [here](https://github.com/cruip/tailwind-landing-page-template/releases/tag/1.3.3).*
