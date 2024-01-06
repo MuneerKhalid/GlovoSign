@@ -71,7 +71,7 @@ export default function Features() {
                 >
                   <div>
                     <div className="font-bold leading-snug tracking-tight mb-1">Real-Time Collaboration Rooms</div>
-                    <div className="text-gray-600">Join our virtual communication rooms designed for seamless interaction. Experience continuous speech-to-text conversion, fostering dynamic conversations between deaf and dumb individuals</div>
+                    <div className="text-gray-600">No our virtual communication rooms designed for seamless interaction. Experience continuous speech-to-text conversion, fostering dynamic conversations between deaf and dumb individuals</div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
                     <svg className="w-3 h-3 fill-current" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
