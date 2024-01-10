@@ -1,8 +1,15 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { ChevronDownIcon, Bars3BottomRightIcon } from "@heroicons/react/20/solid";
+// import { useRouter } from "next/router";
 
 export default function Example() {
+  // const router = useRouter();
+
+  // const handledash = () => {
+  //   router.push('/dashboard');
+  // }
+
   return (
     <div className=" w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -79,6 +86,7 @@ export default function Example() {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                    // onClick={handledash}
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -94,7 +102,7 @@ export default function Example() {
                         aria-hidden="true"
                       />
                     )}
-                    Resources
+                    Dashboard
                   </button>
                 )}
               </Menu.Item>

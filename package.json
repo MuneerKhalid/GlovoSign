@@ -1,7 +1,27 @@
 {
-  "name": "simple-next",
+  "name": "glovosign",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "GlovoSign",
+    "url": "https://GlovoSign.com"
+  },
+  "keywords": [
+    "react",
+    "javascript",
+    "admin",
+    "dashboard",
+    "nextjs",
+    "nextjs13",
+    "admin-dashboard",
+    "free",
+    "admin-template",
+    "admin-panel",
+    "freebies",
+    "nextjs-template",
+    "react-dashboard",
+    "bootstrap 5"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
