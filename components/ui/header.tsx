@@ -37,13 +37,18 @@ export default function Header() {
           </div>
 
           <nav className="hidden md:flex ">
-
             <div className="flex w-32 justify-end gap-3">
               <SignedIn>
                 <UserButton afterSignOutUrl="/" />
                 {/* <MobileNav /> */}
                 <Example />
               </SignedIn>
+
+              <SignedOut>
+                <Button className="rounded-full bg-blue-600">
+                  <Link href="/sign-in">Login</Link>
+                </Button>
+              </SignedOut>
             </div>
           </nav>
 
