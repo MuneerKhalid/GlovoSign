@@ -1,0 +1,30 @@
+/* Home.module.css */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0; /* Adjust for your desired background */
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px; /* Adjust spacing as needed */
+}
+
+.button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4285f4; /* Adjust button color */
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  
+}
+.button:hover {
+  background-color: #357ae8; /* Adjust hover color */
+}

@@ -2,6 +2,7 @@ import VideoThumb from "@/public/images/hero-image.png";
 import ModalVideo from "@/components/modal-video";
 import Link from "next/link";
 import { Scrollto } from "./utils/scrollto";
+import { Button } from "./ui/button";
 
 
 export default function Hero() {
@@ -64,17 +65,18 @@ export default function Hero() {
                 connection for individuals with hearing and speech impairments.
               </p>
               <div
-                className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center"
+                className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center gap-10"
                 data-aos="zoom-y-out"
                 data-aos-delay="300"
               >
                 <div>
-                  <Link
-                    className="btn text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0"
-                    href="/signin"
-                  >
-                    Get Started
-                  </Link>
+                  <Button className=" text-white bg-blue-600 hover:bg-blue-700 w-full mb-4 sm:w-auto sm:mb-0">
+                    <Link
+                      href="/dashboard"
+                    >
+                      Explore
+                    </Link>
+                  </Button>
                 </div>
                 <div>
                   <Scrollto />
