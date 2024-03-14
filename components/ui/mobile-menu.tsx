@@ -65,7 +65,7 @@ export default function MobileMenu() {
         >
           <ul className="px-5 py-2">
             <li>
-              <Link href="/sign-in" className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Sign in</Link>
+              <Link href="/sign-in" className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center" onClick={() => setMobileNavOpen(false)}>Create Room</Link>
             </li>
             <li>
               <Link href="/sign-up" className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center align-middle" onClick={() => setMobileNavOpen(false)}>

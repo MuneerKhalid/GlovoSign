@@ -11,6 +11,7 @@ export default authMiddleware({
   // no authentication information
   ignoredRoutes: [
     '/api/webhook/clerk',
+    '/api/message'
 ],
 });
  

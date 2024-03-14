@@ -1,22 +1,65 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { ChevronDownIcon, Bars3BottomRightIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronDownIcon,
+  Bars3BottomRightIcon,
+} from "@heroicons/react/20/solid";
+import { useRouter } from "next/navigation";
 // import { useRouter } from "next/router";
 
-export default function Example() {
-  // const router = useRouter();
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Input } from "../ui/input";
 
-  // const handledash = () => {
-  //   router.push('/dashboard');
-  // }
+export default function Example() {
+  // let roomIdInput = 'AHSjPZKhAHSjPZKh'
+  const [roomIdInput, setRoomIdInput] = useState("");
+
+  const router = useRouter();
+
+  const generateRandomId = (length: number) => {
+    let result = "";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
+
+  const createRoom = async () => {
+    const roomId: string = generateRandomId(8);
+    router.push(`/room/${roomId}`);
+  };
+
+  const joinRoom = async (roomId: string) => {
+    router.push(`/room/${roomId}`);
+  };
+
+  const JoinRoom2 = () => {
+    router.push(`/joinroom`);
+  }
+
+  const handleInputClick = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    e.stopPropagation(); // Prevents the click event from bubbling up to the parent elements
+  };
 
   return (
     <div className=" text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-white/100 px-4 py-2 text-sm font-medium text-white hover:bg-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/75">
-            
-            <Bars3BottomRightIcon 
+            <Bars3BottomRightIcon
               className="-mr-1 ml-2 h-5 w-5 text-violet-900 hover:text-violet-800"
               aria-hidden="true"
             />
@@ -43,6 +86,7 @@ export default function Example() {
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    onClick={createRoom}
                   >
                     {active ? (
                       <EditActiveIcon
@@ -55,59 +99,64 @@ export default function Example() {
                         aria-hidden="true"
                       />
                     )}
-                    Login
+                    Create Room
                   </button>
                 )}
               </Menu.Item>
               <Menu.Item>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    {active ? (
-                      <DuplicateActiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <DuplicateInactiveIcon
-                        className="mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Sign Up
-                  </button>
-                )}
+                <AlertDialog>
+                  <AlertDialogTrigger className="p-medium-14 flex w-full rounded-sm py-3 pl-8 text-primary-500 hover:bg-primary-50 focus:bg-primary-500 focus:text-primary-50">
+                    Join Room
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="bg-white">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Enter Room Id</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        <Input
+                          type="text"
+                          placeholder="Enter Room Id"
+                          className="input-field mt-3"
+                          onChange={(e) => setRoomIdInput(e.target.value)}
+                          onClick={handleInputClick}
+                          value={roomIdInput}
+                        />
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => joinRoom(roomIdInput)}>
+                        Join
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </Menu.Item>
             </div>
             <div className="px-1 py-1">
-              <Menu.Item>
+            <Menu.Item>
                 {({ active }) => (
                   <button
-                    // onClick={handledash}
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    onClick={JoinRoom2}
                   >
                     {active ? (
-                      <ArchiveActiveIcon
+                      <EditActiveIcon
                         className="mr-2 h-5 w-5"
                         aria-hidden="true"
                       />
                     ) : (
-                      <ArchiveInactiveIcon
+                      <EditInactiveIcon
                         className="mr-2 h-5 w-5"
                         aria-hidden="true"
                       />
                     )}
-                    Dashboard
+                    Join Room 2
                   </button>
                 )}
               </Menu.Item>
             </div>
-            
           </Menu.Items>
         </Transition>
       </Menu>
