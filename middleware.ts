@@ -5,6 +5,7 @@ export default authMiddleware({
   publicRoutes: [
     '/',
     '/api/webhook/clerk',
+    '/api/message'
 
   ],
   // Routes that can always be accessed, and have
