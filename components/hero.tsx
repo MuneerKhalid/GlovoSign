@@ -74,7 +74,7 @@ export default function Hero() {
                     <Link
                       href="/dashboard"
                     >
-                      Explore
+                      Explore now
                     </Link>
                   </Button>
                 </div>
