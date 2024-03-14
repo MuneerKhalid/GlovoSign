@@ -10,10 +10,6 @@ interface MessageFieldProps {
 const MessageField: FC<MessageFieldProps> = ({ roomId }) => {
   const [input, setInput] = useState<string>('');
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
-  };
-
   const sendMessage = async (text: string) => {
     await axios.post('/api/message', { text, roomId });
     // Clear the input field after the message is sent
@@ -31,7 +27,7 @@ const MessageField: FC<MessageFieldProps> = ({ roomId }) => {
     <div className='flex gap-2'>
       Type a new message:
       <input
-        onChange={handleInputChange}
+        onChange={(e) => setInput(e.target.value)}
         className='border border-zinc-300'
         type='text'
         value={input}
