@@ -26,21 +26,22 @@ export default function Example() {
 
   const router = useRouter();
 
-  const generateRandomId = (length: number) => {
-    let result = "";
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  };
+  // const generateRandomId = (length: number) => {
+  //   let result = "";
+  //   const characters =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   const charactersLength = characters.length;
+  //   for (let i = 0; i < length; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+  //   return result;
+  // };
 
   const createRoom = async () => {
-    const roomId: string = generateRandomId(8);
-    router.push(`/room/${roomId}`);
-  };
+    const res = await fetch('/api/rooms/create')
+    const roomId: string = await res.text()
+    router.push(`/room/${roomId}`)
+  }
 
   const joinRoom = async (roomId: string) => {
     router.push(`/room/${roomId}`);

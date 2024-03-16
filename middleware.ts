@@ -5,14 +5,16 @@ export default authMiddleware({
   publicRoutes: [
     '/',
     '/api/webhook/clerk',
-    '/api/message'
+    '/api/message',
+    '/api/room/create'
 
   ],
   // Routes that can always be accessed, and have
   // no authentication information
   ignoredRoutes: [
     '/api/webhook/clerk',
-    '/api/message'
+    '/api/message',
+    '/api/room/create'
 ],
 });
  
