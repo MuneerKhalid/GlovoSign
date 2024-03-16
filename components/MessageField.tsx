@@ -1,26 +1,31 @@
 'use client'
 
 import axios from 'axios'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 interface MessageFieldProps {
   roomId: string
 }
 
 const MessageField: FC<MessageFieldProps> = ({ roomId }) => {
-  let input = ''
+  const [input, setInput] = useState("");
 
   const sendMessage = async (text: string) => {
-    await axios.post('/api/message', { text, roomId })
+    const res = await axios.post('/api/message', { text, roomId })
+
+    if(res){
+      setInput("");
+    }
   }
 
   return (
     <div className='flex gap-2'>
       type a new message:
       <input
-        onChange={({ target }) => (input = target.value)}
+        onChange={( e ) => setInput(e.target.value)}
         className='border border-zinc-300'
         type='text'
+        value={input}
       />
       <button onClick={() => sendMessage(input || '')}>send</button>
     </div>
