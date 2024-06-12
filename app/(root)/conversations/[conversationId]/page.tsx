@@ -61,26 +61,40 @@ const ConversationPage = ({ params: { conversationId } }: Props) => {
         imageUrl={
           conversation.isGroup ? undefined : conversation.otherMember?.imageUrl
         }
-        options={conversation.isGroup ? [
-          {
-            label: "Leave group",
-            destructive: false,
-            onClick: () => setLeaveGroupDialogOpen(true)
-          },
-          {
-            label: "Delete group",
-            destructive: true,
-            onClick: () => setDeleteGroupDialogOpen(true)
-          },
-        ] : [
-          {
-            label: "Remove friend",
-            destructive: true,
-            onClick: () => setRemoveFriendDialogOpen(true)
-          },
-        ]}
+        options={
+          conversation.isGroup
+            ? [
+                {
+                  label: "Leave group",
+                  destructive: false,
+                  onClick: () => setLeaveGroupDialogOpen(true),
+                },
+                {
+                  label: "Delete group",
+                  destructive: true,
+                  onClick: () => setDeleteGroupDialogOpen(true),
+                },
+              ]
+            : [
+                {
+                  label: "Remove friend",
+                  destructive: true,
+                  onClick: () => setRemoveFriendDialogOpen(true),
+                },
+              ]
+        }
       />
-      <Body />
+      <Body
+        members={
+          conversation.isGroup
+            ? conversation.otherMembers
+              ? conversation.otherMembers
+              : []
+            : conversation.otherMember
+              ? [conversation.otherMember]
+              : []
+        }
+      />
       <ChatInput />
     </ConversationContainer>
   );

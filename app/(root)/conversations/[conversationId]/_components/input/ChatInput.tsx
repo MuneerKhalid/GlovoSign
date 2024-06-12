@@ -73,7 +73,6 @@ const ChatInput = (props: Props) => {
     <Card className="w-full p-2 rounded-lg relative">
       <div className="flex gap-2 items-end w-full">
         <Form {...form}>
-          ,
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="flex gap-2 items-end w-full"
@@ -86,10 +85,10 @@ const ChatInput = (props: Props) => {
                   <FormItem className="h-full w-full">
                     <FormControl>
                       <TextareaAutosize
-                        onKeyDown={async e => {
+                        onKeyDown={async (e) => {
                           if (e.key === "Enter" && !e.shiftKey) {
                             e.preventDefault();
-                            await form.handleSubmit(handleSubmit)()
+                            await form.handleSubmit(handleSubmit)();
                           }
                         }}
                         rows={1}

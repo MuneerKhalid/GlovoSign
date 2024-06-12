@@ -47,10 +47,30 @@ export const get = query({
           )
           .collect();
 
-          const lastMessage = await getLastMessageDetails({ctx, id: conversation.lastMessageId})
+        const lastMessage = await getLastMessageDetails({
+          ctx,
+          id: conversation.lastMessageId,
+        });
+
+        const lastSeenMessage = conversationMemberships[index].lastSeenMessage
+          ? await ctx.db.get(conversationMemberships[index].lastSeenMessage!)
+          : null;
+
+        const lastSeenMessageTime = lastSeenMessage
+          ? lastSeenMessage._creationTime
+          : -1;
+
+        const unseenMessage = await ctx.db
+          .query("messages")
+          .withIndex("by_conversationId", (q) =>
+            q.eq("conversationId", conversation._id)
+          )
+          .filter((q) => q.gt(q.field("_creationTime"), lastSeenMessageTime))
+          .filter((q) => q.neq(q.field("senderId"), currentUser._id))
+          .collect();
 
         if (conversation.isGroup) {
-          return { conversation, lastMessage };
+          return { conversation, lastMessage, unseenCount: unseenMessage.length };
         } else {
           const otherMembership = allConversationMemberships.filter(
             (membersip) => membersip.memberId !== currentUser._id
@@ -62,6 +82,7 @@ export const get = query({
             conversation,
             otherMember,
             lastMessage,
+            unseenCount: unseenMessage.length,
           };
         }
       })
@@ -76,7 +97,7 @@ const getLastMessageDetails = async ({
   id,
 }: {
   ctx: QueryCtx | MutationCtx;
-  id: Id<"messages"> | undefined
+  id: Id<"messages"> | undefined;
 }) => {
   if (!id) return null;
 
