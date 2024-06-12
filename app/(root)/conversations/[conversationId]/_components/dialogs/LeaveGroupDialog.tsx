@@ -21,13 +21,13 @@ type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const RemoveFriendDialog = ({ conversationId, open, setOpen }: Props) => {
-  const { mutate: removeFriend, pending } = useMutationState(api.friend.remove);
+const LeaveGroupDialog = ({ conversationId, open, setOpen }: Props) => {
+  const { mutate: leaveGroup, pending } = useMutationState(api.conversation.leaveGroup);
 
-  const handleRemoveFriend = async () => {
-    removeFriend({ conversationId })
+  const handleleaveGroup = async () => {
+    leaveGroup({ conversationId })
       .then(() => {
-        toast.success("Friend removed");
+        toast.success("Group left");
       })
       .catch((error) => {
         toast.error(
@@ -41,13 +41,13 @@ const RemoveFriendDialog = ({ conversationId, open, setOpen }: Props) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. All messages will be deleted.
+            This action cannot be undone. You won't be able to send messages after leaving
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
-          <AlertDialogAction disabled={pending} onClick={handleRemoveFriend}>
-            Remove
+          <AlertDialogAction disabled={pending} onClick={handleleaveGroup}>
+            Leave
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -55,4 +55,4 @@ const RemoveFriendDialog = ({ conversationId, open, setOpen }: Props) => {
   );
 };
 
-export default RemoveFriendDialog;
+export default LeaveGroupDialog;
