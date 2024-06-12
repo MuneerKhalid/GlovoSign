@@ -50,7 +50,7 @@ const Header = ({ imageUrl, name, options }: Props) => {
                       "text-destructive": option.destructive,
                     })}
                   >
-
+                    {option.label}
                   </DropdownMenuItem>
                 )
               })}
