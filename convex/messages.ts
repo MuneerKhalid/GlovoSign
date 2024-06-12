@@ -51,7 +51,7 @@ export const get = query({
           message,
           senderImage: messageSender.imageUrl,
           senderName: messageSender.username,
-          isCurrentUser: messageSender._id,
+          isCurrentUser: messageSender._id === currentUser._id,
         };
       })
     );
