@@ -10,7 +10,7 @@ type Props = React.PropsWithChildren<{
   action?: React.ReactNode;
 }>;
 
-const itemList = ({ children, title, action: Action }: Props) => {
+const ItemList = ({ children, title, action: Action }: Props) => {
   const {isActive} = useConversation();
   return (
     <Card className={cn("hidden h-full w-full lg:flex-none lg:w-80 p-2", {
@@ -30,4 +30,4 @@ const itemList = ({ children, title, action: Action }: Props) => {
   );
 };
 
-export default itemList;
+export default ItemList;
