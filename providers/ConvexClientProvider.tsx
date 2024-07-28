@@ -14,12 +14,13 @@ const CONVEX_URL = process.env.NEXT_PUBLIC_CONVEX_URL || ""
 
 const convex = new ConvexReactClient(CONVEX_URL);
 
+
 const ConvexClientProvider = ({ children }: Props) => {
   return (
     <ClerkProvider>
       <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
         <Unauthenticated>
-          <SignIn />
+         <SignIn/>
         </Unauthenticated>
         <Authenticated>{children}</Authenticated>
         <AuthLoading>

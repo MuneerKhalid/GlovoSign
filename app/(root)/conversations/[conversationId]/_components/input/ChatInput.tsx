@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -13,8 +15,6 @@ import { useConversation } from "@/hooks/useConversation";
 import { useMutationState } from "@/hooks/useMutationState";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ConvexError } from "convex/values";
-import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import TextareaAutosize from "react-textarea-autosize";
@@ -31,6 +31,7 @@ const chatMessageSchema = z.object({
 
 const ChatInput = (props: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [predictedWord, setPredictedWord] = useState<string>("");
 
   const { conversationId } = useConversation();
 
@@ -45,11 +46,42 @@ const ChatInput = (props: Props) => {
     },
   });
 
+  useEffect(() => {
+    const fetchPrediction = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:5000/conversations/${conversationId}`,
+          {
+            method: 'GET',
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.prediction) {
+          setPredictedWord((prevWord) => prevWord + data.prediction);
+        }
+      } catch (error) {
+        console.error("Error fetching prediction:", error);
+      }
+    };
+
+    const intervalId = setInterval(fetchPrediction, 3000); // Fetch prediction every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup on component unmount
+  }, [conversationId]);
+
   const handleInputChange = (event: any) => {
     const { value, selectionStart } = event.target;
 
     if (selectionStart !== null) {
       form.setValue("content", value);
+      setPredictedWord(value); // Update the predicted word if the user changes the input
     }
   };
 
@@ -61,10 +93,11 @@ const ChatInput = (props: Props) => {
     })
       .then(() => {
         form.reset();
+        setPredictedWord(""); // Reset predicted word after message is sent
       })
       .catch((error) => {
         toast.error(
-          error instanceof ConvexError ? error.data : "Unexpected error occured"
+          error instanceof ConvexError ? error.data : "Unexpected error occurred"
         );
       });
   };
@@ -98,6 +131,7 @@ const ChatInput = (props: Props) => {
                         onClick={handleInputChange}
                         placeholder="Type a message..."
                         className="min-h-full w-full resize-none border-0 outline-0 bg-card text-card-foreground placeholder:text-muted-foreground p-1.5"
+                        value={predictedWord}
                       />
                     </FormControl>
                     <FormMessage />
