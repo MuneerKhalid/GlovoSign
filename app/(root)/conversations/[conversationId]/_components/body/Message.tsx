@@ -2,6 +2,7 @@ import React from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Volume2 } from "lucide-react"; // Import an icon for the voice button
 
 type Props = {
   fromCurrentUser: boolean;
@@ -24,9 +25,15 @@ const Message = ({
   seen,
   type,
 }: Props) => {
-  const formatTIme = (timestamp: number) => {
+  const formatTime = (timestamp: number) => {
     return format(timestamp, "HH:mm");
   };
+
+  const handleSpeak = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  };
+
   return (
     <div
       className={cn("flex items-end", {
@@ -48,31 +55,41 @@ const Message = ({
           })}
         >
           {type === "text" ? (
-            <p className="text-wrap break-words whitespace-pre-wrap break-all">
-              {content}
-            </p>
+            <div className="flex items-center">
+              <p className="text-wrap break-words whitespace-pre-wrap break-all">
+                {content}
+              </p>
+            </div>
           ) : null}
-          <p
-            className={cn("text-xs flex w-full my-1", {
-              "text-primary-foreground justify-end": fromCurrentUser,
-              "text-secondary-foreground justify-start": !fromCurrentUser,
-            })}
-          >
-            {formatTIme(createdAt)}
-          </p>
+          <div className="flex">
+            <button
+              onClick={() => handleSpeak(content.join(" "))}
+              className="mr-4 text-primary-foreground flex"
+            >
+              <Volume2 size={20} color="black"/>
+            </button>
+            <p
+              className={cn("text-xs flex w-full my-1", {
+                "text-primary-foreground justify-end": fromCurrentUser,
+                "text-secondary-foreground justify-start": !fromCurrentUser,
+              })}
+            >
+              {formatTime(createdAt)}
+            </p>
+          </div>
         </div>
         {seen}
       </div>
 
-      <Avatar className={cn("relative w-8 h-8", {
-        "order-2": fromCurrentUser,
-        "order-1": !fromCurrentUser,
-        invisible: lastByUser,
-      })}>
-        <AvatarImage src={senderImage}/>
-        <AvatarFallback>
-          {senderName.substring(0,1)}
-        </AvatarFallback>
+      <Avatar
+        className={cn("relative w-8 h-8", {
+          "order-2": fromCurrentUser,
+          "order-1": !fromCurrentUser,
+          invisible: lastByUser,
+        })}
+      >
+        <AvatarImage src={senderImage} />
+        <AvatarFallback>{senderName.substring(0, 1)}</AvatarFallback>
       </Avatar>
     </div>
   );

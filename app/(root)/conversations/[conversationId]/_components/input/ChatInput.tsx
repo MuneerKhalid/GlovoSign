@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "@/components/ui/button";
-import { SendHorizonal } from "lucide-react";
+import { SendHorizonal, Mic } from "lucide-react"; // Import the Mic icon
 
 type Props = {};
 
@@ -71,7 +71,7 @@ const ChatInput = (props: Props) => {
       }
     };
 
-    const intervalId = setInterval(fetchPrediction, 3000); // Fetch prediction every 5 seconds
+    const intervalId = setInterval(fetchPrediction, 3000); // Fetch prediction every 3 seconds
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, [conversationId]);
@@ -100,6 +100,38 @@ const ChatInput = (props: Props) => {
           error instanceof ConvexError ? error.data : "Unexpected error occurred"
         );
       });
+  };
+
+  let recognition: any = null;
+
+  const startRecognition = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      toast.error("Your browser does not support speech recognition.");
+      return;
+    }
+
+    recognition = new window.webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (event: any) => {
+      const speechResult = event.results[0][0].transcript;
+      setPredictedWord((prev) => prev + " " + speechResult);
+      form.setValue("content", predictedWord + " " + speechResult);
+    };
+
+    recognition.onerror = (event: any) => {
+      toast.error("Error occurred in recognition: " + event.error);
+    };
+
+    recognition.start();
+  };
+
+  const stopRecognition = () => {
+    if (recognition) {
+      recognition.stop();
+    }
   };
 
   return (
@@ -139,6 +171,16 @@ const ChatInput = (props: Props) => {
                 );
               }}
             />
+            <Button
+              onMouseDown={startRecognition}
+              onMouseUp={stopRecognition}
+              onTouchStart={startRecognition} // For mobile touch support
+              onTouchEnd={stopRecognition}   // For mobile touch support
+              size="icon"
+              type="button"
+            >
+              <Mic />
+            </Button>
             <Button disabled={pending} size="icon" type="submit">
               <SendHorizonal />
             </Button>
