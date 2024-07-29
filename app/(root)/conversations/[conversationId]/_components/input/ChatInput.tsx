@@ -19,7 +19,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "@/components/ui/button";
-import { SendHorizonal, Mic } from "lucide-react"; // Import the Mic icon
+import { SendHorizonal, Mic } from "lucide-react";
+import classNames from "classnames"; // Import classNames utility
 
 type Props = {};
 
@@ -32,6 +33,8 @@ const chatMessageSchema = z.object({
 const ChatInput = (props: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [predictedWord, setPredictedWord] = useState<string>("");
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const recognitionRef = useRef<any>(null); // Use a ref to store recognition instance
 
   const { conversationId } = useConversation();
 
@@ -52,10 +55,10 @@ const ChatInput = (props: Props) => {
         const response = await fetch(
           `http://127.0.0.1:5000/conversations/${conversationId}`,
           {
-            method: 'GET',
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
-              "Accept": "application/json",
+              Accept: "application/json",
             },
           }
         );
@@ -71,9 +74,9 @@ const ChatInput = (props: Props) => {
       }
     };
 
-    const intervalId = setInterval(fetchPrediction, 3000); // Fetch prediction every 3 seconds
+    const intervalId = setInterval(fetchPrediction, 3000);
 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
+    return () => clearInterval(intervalId);
   }, [conversationId]);
 
   const handleInputChange = (event: any) => {
@@ -81,7 +84,7 @@ const ChatInput = (props: Props) => {
 
     if (selectionStart !== null) {
       form.setValue("content", value);
-      setPredictedWord(value); // Update the predicted word if the user changes the input
+      setPredictedWord(value);
     }
   };
 
@@ -93,25 +96,25 @@ const ChatInput = (props: Props) => {
     })
       .then(() => {
         form.reset();
-        setPredictedWord(""); // Reset predicted word after message is sent
+        setPredictedWord("");
       })
       .catch((error) => {
         toast.error(
-          error instanceof ConvexError ? error.data : "Unexpected error occurred"
+          error instanceof ConvexError
+            ? error.data
+            : "Unexpected error occurred"
         );
       });
   };
 
-  let recognition: any = null;
-
   const startRecognition = () => {
-    if (!('webkitSpeechRecognition' in window)) {
+    if (!("webkitSpeechRecognition" in window)) {
       toast.error("Your browser does not support speech recognition.");
       return;
     }
 
-    recognition = new (window as any).webkitSpeechRecognition();
-    recognition.lang = 'en-US';
+    const recognition = new (window as any).webkitSpeechRecognition();
+    recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
@@ -123,15 +126,34 @@ const ChatInput = (props: Props) => {
 
     recognition.onerror = (event: any) => {
       toast.error("Error occurred in recognition: " + event.error);
+      stopRecognition();
     };
 
-    recognition.start();
+    recognition.onend = () => {
+      if (isRecording) {
+        recognition.start(); // Restart recognition if still recording
+      }
+    };
+
+    recognitionRef.current = recognition; // Store recognition instance in ref
+    recognition.start(); // Start recognition
   };
 
   const stopRecognition = () => {
-    if (recognition) {
-      recognition.stop();
+    setIsRecording(false);
+    if (recognitionRef.current) {
+      recognitionRef.current.stop(); // Stop recognition
+      recognitionRef.current = null; // Clear the reference
     }
+  };
+
+  const handleMicPress = () => {
+    setIsRecording(true);
+    startRecognition();
+  };
+
+  const handleMicRelease = () => {
+    stopRecognition();
   };
 
   return (
@@ -172,15 +194,19 @@ const ChatInput = (props: Props) => {
               }}
             />
             <Button
-              onMouseDown={startRecognition}
-              onMouseUp={stopRecognition}
-              onTouchStart={startRecognition} // For mobile touch support
-              onTouchEnd={stopRecognition}   // For mobile touch support
+              onMouseDown={handleMicPress}
+              onMouseUp={handleMicRelease}
+              onTouchStart={handleMicPress}
+              onTouchEnd={handleMicRelease}
               size="icon"
               type="button"
+              className={classNames("transition-transform duration-200", {
+                "scale-75": isRecording,
+              })}
             >
               <Mic />
             </Button>
+
             <Button disabled={pending} size="icon" type="submit">
               <SendHorizonal />
             </Button>
