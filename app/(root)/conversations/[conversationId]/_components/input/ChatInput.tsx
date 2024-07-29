@@ -110,7 +110,7 @@ const ChatInput = (props: Props) => {
       return;
     }
 
-    recognition = new window.webkitSpeechRecognition();
+    recognition = new (window as any).webkitSpeechRecognition();
     recognition.lang = 'en-US';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
