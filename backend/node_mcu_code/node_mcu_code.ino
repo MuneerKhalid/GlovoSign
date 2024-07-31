@@ -3,8 +3,8 @@
 #include <Wire.h>
 #include <ADS1X15.h>
 
-const char* ssid = "digitalhighway{dhk21}03152587564";
-const char* password = "msba7560";
+const char* ssid = "tk net i4";
+const char* password = "1234@fk.com";
 
 ESP8266WebServer server(100);
 

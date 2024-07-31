@@ -14,7 +14,7 @@ except FileNotFoundError:
     print(f"Model file {model_filename} not found.")
     clf = None
 
-nodemcu_url = "http://192.168.0.114:100/"  # Replace with the actual URL
+nodemcu_url = "http://192.168.100.12:100/"  # Replace with the actual URL
 
 def get_sensor_data(url):
     try:
