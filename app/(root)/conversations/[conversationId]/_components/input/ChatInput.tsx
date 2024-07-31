@@ -53,7 +53,7 @@ const ChatInput = (props: Props) => {
     const fetchPrediction = async () => {
       try {
         const response = await fetch(
-          `http://192.168.100.13:5000/conversations/${conversationId}`,
+          `https://0b40-175-107-220-139.ngrok-free.app/conversations/${conversationId}`,
           {
             method: "GET",
             headers: {

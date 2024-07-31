@@ -5,7 +5,7 @@ import joblib
 import numpy as np
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://glovosign.vercel.app"}})
+CORS(app, resources={r"/*": {"origins": "https://0b40-175-107-220-139.ngrok-free.app"}})
 
 model_filename = 'decision_tree_model.joblib'
 try:
