@@ -53,7 +53,7 @@ const ChatInput = (props: Props) => {
     const fetchPrediction = async () => {
       try {
         const response = await fetch(
-          `http://192.168.100.10:5000/conversations/${conversationId}`,
+          `/api/conversations/${conversationId}`,
           {
             method: "GET",
             headers: {
