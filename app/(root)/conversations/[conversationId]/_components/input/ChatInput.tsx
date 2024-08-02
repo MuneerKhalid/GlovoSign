@@ -22,7 +22,7 @@ import { z } from "zod";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "@/components/ui/button";
 import { SendHorizonal, Mic, Play } from "lucide-react";
-import classNames from "classnames"; // Import classNames utility
+import classNames from "classnames"; 
 
 type Props = {};
 
@@ -37,7 +37,7 @@ const ChatInput = (props: Props) => {
   const [predictedWord, setPredictedWord] = useState<string>("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [isFetchingPrediction, setIsFetchingPrediction] = useState<boolean>(false);
-  const recognitionRef = useRef<any>(null); // Use a ref to store recognition instance
+  const recognitionRef = useRef<any>(null); 
 
   const { conversationId } = useConversation();
 
@@ -138,19 +138,19 @@ const ChatInput = (props: Props) => {
 
     recognition.onend = () => {
       if (isRecording) {
-        recognition.start(); // Restart recognition if still recording
+        recognition.start(); 
       }
     };
 
-    recognitionRef.current = recognition; // Store recognition instance in ref
-    recognition.start(); // Start recognition
+    recognitionRef.current = recognition;
+    recognition.start(); 
   };
 
   const stopRecognition = () => {
     setIsRecording(false);
     if (recognitionRef.current) {
-      recognitionRef.current.stop(); // Stop recognition
-      recognitionRef.current = null; // Clear the reference
+      recognitionRef.current.stop(); 
+      recognitionRef.current = null; 
     }
   };
 

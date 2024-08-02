@@ -24,7 +24,7 @@ const RedirectToSignIn = () => {
     window.location.href = "https://rested-serval-15.accounts.dev/sign-in";
   }, []);
 
-  return null; // Render nothing while redirecting
+  return null; 
 };
 
 const ConvexClientProvider = ({ children }: Props) => {
