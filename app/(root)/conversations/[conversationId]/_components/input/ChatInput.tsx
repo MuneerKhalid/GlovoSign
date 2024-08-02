@@ -58,7 +58,7 @@ const ChatInput = (props: Props) => {
     const fetchPrediction = async () => {
       try {
         const response = await fetch(
-          `https://6589-175-107-220-139.ngrok-free.app/conversations/${conversationId}`,
+          `http://192.168.100.13:5000/conversations/${conversationId}`,
           {
             method: "GET",
             headers: {
@@ -67,9 +67,6 @@ const ChatInput = (props: Props) => {
             },
           }
         );
-
-        const responseText = await response.text();
-        console.log("Response Text:", responseText);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

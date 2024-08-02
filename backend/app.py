@@ -8,7 +8,6 @@ app = Flask(__name__)
 
 allowed_origins = [
     "https://glovosign.vercel.app",
-    "https://647c-175-107-220-139.ngrok-free.app",
     "http://localhost:3000"
 ]
 
