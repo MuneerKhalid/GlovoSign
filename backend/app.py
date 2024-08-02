@@ -3,8 +3,11 @@ from flask_cors import CORS
 import requests
 import joblib
 import numpy as np
+from flask_talisman import Talisman
+
 
 app = Flask(__name__)
+talisman = Talisman(app, force_https=True)
 CORS(app, resources={r"/*": {"origins": "https://glovosign.vercel.app"}})
 
 model_filename = 'decision_tree_model.joblib'
