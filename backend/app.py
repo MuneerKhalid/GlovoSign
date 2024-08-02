@@ -5,7 +5,7 @@ import joblib
 import numpy as np
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://0b40-175-107-220-139.ngrok-free.app"}})
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 model_filename = 'decision_tree_model.joblib'
 try:
@@ -32,6 +32,7 @@ def get_prediction(conversation_id):
         return jsonify({'error': 'Model not loaded.'}), 500
     
     sensor_data = get_sensor_data(nodemcu_url)
+    print(f"Sensor Data: {sensor_data}")  # Add this line for debugging
     if sensor_data:
         try:
             features = np.array([[
@@ -42,6 +43,7 @@ def get_prediction(conversation_id):
                 sensor_data.get('ADS1115_0x49_A1', 0)
             ]])
             prediction = clf.predict(features)
+            print(f"Prediction: {prediction}")  # Add this line for debugging
             predicted_label = prediction[0]
             return jsonify({'prediction': predicted_label})
         except KeyError as e:

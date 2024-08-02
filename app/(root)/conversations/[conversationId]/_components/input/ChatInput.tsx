@@ -1,3 +1,5 @@
+// frontend
+
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -19,7 +21,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "@/components/ui/button";
-import { SendHorizonal, Mic } from "lucide-react";
+import { SendHorizonal, Mic, Play } from "lucide-react";
 import classNames from "classnames"; // Import classNames utility
 
 type Props = {};
@@ -34,6 +36,7 @@ const ChatInput = (props: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [predictedWord, setPredictedWord] = useState<string>("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [isFetchingPrediction, setIsFetchingPrediction] = useState<boolean>(false);
   const recognitionRef = useRef<any>(null); // Use a ref to store recognition instance
 
   const { conversationId } = useConversation();
@@ -50,10 +53,12 @@ const ChatInput = (props: Props) => {
   });
 
   useEffect(() => {
+    if (!isFetchingPrediction) return;
+
     const fetchPrediction = async () => {
       try {
         const response = await fetch(
-          `https://0b40-175-107-220-139.ngrok-free.app/conversations/${conversationId}`,
+          `http://192.168.100.13:5000/conversations/${conversationId}`,
           {
             method: "GET",
             headers: {
@@ -68,6 +73,7 @@ const ChatInput = (props: Props) => {
         const data = await response.json();
         if (data.prediction) {
           setPredictedWord((prevWord) => prevWord + data.prediction);
+          form.setValue("content", predictedWord + data.prediction);
         }
       } catch (error) {
         console.error("Error fetching prediction:", error);
@@ -77,7 +83,7 @@ const ChatInput = (props: Props) => {
     const intervalId = setInterval(fetchPrediction, 3000);
 
     return () => clearInterval(intervalId);
-  }, [conversationId]);
+  }, [conversationId, predictedWord, form, isFetchingPrediction]);
 
   const handleInputChange = (event: any) => {
     const { value, selectionStart } = event.target;
@@ -120,8 +126,9 @@ const ChatInput = (props: Props) => {
 
     recognition.onresult = (event: any) => {
       const speechResult = event.results[0][0].transcript;
-      setPredictedWord((prev) => prev + " " + speechResult);
-      form.setValue("content", predictedWord + " " + speechResult);
+      const newPredictedWord = predictedWord + " " + speechResult;
+      setPredictedWord(newPredictedWord);
+      form.setValue("content", newPredictedWord);
     };
 
     recognition.onerror = (event: any) => {
@@ -154,6 +161,11 @@ const ChatInput = (props: Props) => {
 
   const handleMicRelease = () => {
     stopRecognition();
+  };
+
+  const togglePredictionFetching = () => {
+    setIsFetchingPrediction(!isFetchingPrediction);
+    toast(isFetchingPrediction ? "Gloves mode deactivated" : "Gloves mode activated");
   };
 
   return (
@@ -205,6 +217,17 @@ const ChatInput = (props: Props) => {
               })}
             >
               <Mic />
+            </Button>
+
+            <Button
+              onClick={togglePredictionFetching}
+              size="icon"
+              type="button"
+              className={classNames("transition-transform duration-200", {
+                "scale-75": isFetchingPrediction,
+              })}
+            >
+              <Play />
             </Button>
 
             <Button disabled={pending} size="icon" type="submit">

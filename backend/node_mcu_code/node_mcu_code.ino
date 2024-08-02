@@ -41,7 +41,7 @@ void setup() {
     String json = "{";
     json += "\"ADS1115_0x48_A0\":" + String(ads1.readADC(0)) + ",";
     json += "\"ADS1115_0x48_A1\":" + String(ads1.readADC(1)) + ",";
-    json += "\"ADS1115_0x48_A3\":" + String(ads1.readADC(3)) + ",";
+    json += "\"ADS1115_0x48_A3\":" + String(ads1.readADC(2)) + ",";
     json += "\"ADS1115_0x49_A0\":" + String(ads2.readADC(0)) + ",";
     json += "\"ADS1115_0x49_A1\":" + String(ads2.readADC(1));
     json += "}";
