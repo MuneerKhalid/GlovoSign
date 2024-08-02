@@ -165,7 +165,7 @@ const ChatInput = (props: Props) => {
 
   const togglePredictionFetching = () => {
     setIsFetchingPrediction(!isFetchingPrediction);
-    toast(isFetchingPrediction ? "Gloves mode deactivated" : "Gloves mode activated");
+    toast.success(isFetchingPrediction ? "Gloves mode deactivated" : "Gloves mode activated");
   };
 
   return (
